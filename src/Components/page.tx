@@ -1,0 +1,69 @@
+"use client";
+
+import { useState, useCallback, useEffect } from "react";
+import HoldToUnlock from "../Components/HoldToUnlock";
+import ScrollRevealSection from "../Components/ScrollRevealSection";
+import LandingPage from "../Components/Landingpage";
+import TextFillScroll from "../Components/TextFillScroll";
+import ProjectDiveScroll from "../Components/Project/Projectdivescroll";
+import HeroSection from "../Components/Herosection";
+import Loader from "../Helpers/Loader";
+
+export default function Page() {
+  const [unlocked, setUnlocked] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [ready, setReady] = useState(false);
+
+  const handleUnlock = useCallback(() => {
+    setTimeout(() => {
+      setUnlocked(true);
+      setLoading(true);
+    }, 0);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = unlocked && ready ? "auto" : "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [unlocked, ready]);
+
+  return (
+    <main className="min-h-screen bg-black">
+      {
+      !unlocked ? (
+        <div className="fixed inset-0 z-50 h-screen w-screen overflow-hidden">
+          <HoldToUnlock onUnlock={handleUnlock} />
+        </div>
+      ) : 
+      loading ? (
+        <Loader
+          onComplete={() => {
+            setLoading(false);
+            setReady(true);
+          }}
+        />
+      ) : (
+        <>
+          <div id="hero">
+            <HeroSection imageSrc="/profile.png" name="SHIV" />
+          </div>
+
+          <div id="landing">
+            <ScrollRevealSection
+              renderLandingPage={(isRevealed) => <LandingPage isRevealed={isRevealed} />}
+            />
+          </div>
+
+          <div id="textfill">
+            <TextFillScroll />
+          </div>
+
+          <div id="projects">
+            <ProjectDiveScroll />
+          </div>
+        </>
+      )}
+    </main>
+  );
+}
