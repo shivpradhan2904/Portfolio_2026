@@ -13,8 +13,11 @@ const TICKER_ITEMS_1 = [
 
 const TICKER_ITEMS_2 = [
   "NEXT.JS",
+  "FRAMER MOTION",
+  "GSAP",
   "TYPESCRIPT",
   "NODE.JS",
+  "GITHUB",
   "REACT",
   "EXPRESS",
   "MONGODB",

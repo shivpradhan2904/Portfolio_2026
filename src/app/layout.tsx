@@ -3,6 +3,7 @@ import { Caveat, Geist, Geist_Mono, Poppins, Space_Grotesk } from "next/font/goo
 import "./globals.css";
 import SmoothScroll from "../Helpers/SmoothScroll";
 import Navbar from "../Components/Navbar";
+import { CustomCursor } from "../Components/CustomCursor";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],

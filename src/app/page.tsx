@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
 import ProjectDiveScroll from "../Components/Project/Projectdivescroll";
-import Loader from "../Helpers/Loader";
 import LoadingScreen from "../Components/Hero/Loadingscreen";
-import Navbar from "../Components/Hero/Navbar";
 import Hero from "../Components/Hero/Hero";
 import HeroStatement from "../Components/Hero/Herostatement";
 import CombinedNavbar from "../Components/Navbar";
@@ -12,46 +11,65 @@ import ProjectShowcase from "../Components/ProjectShowcase";
 import GridZoomHero from "../Components/GridZoomHero";
 import QualificationsSection from "../Components/QualificationsSection";
 import PerspectiveMarqueeHero from "../Components/PerspectiveMarqueeHero";
-import ProfileHeroSection from "../Components/ProfileHeroSection";
 import FooterSection from "../Components/FooterSection";
+import { CustomCursor } from "../Components/CustomCursor";
 
 export default function Page() {
   const [loading, setLoading] = useState(true);
-  const [ready, setReady] = useState(true);
 
+  // 1. Force page scroll to top on fresh load / refresh
   useEffect(() => {
-    document.body.style.overflow = ready ? "auto" : "hidden";
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
+  // 2. Lock / unlock background scroll based on loading state
+  useEffect(() => {
+    if (loading) {
+      window.scrollTo(0, 0);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [ready]);
+  }, [loading]);
 
   return (
     <main className="min-h-screen bg-black">
-      <>
-        {/* {loading && <LoadingScreen onDone={() => setLoading(false)} />} */}
-        <CombinedNavbar />
-        <div id="home">
-          <Hero />
-        </div>
-        <HeroStatement />
-        <div id="about">
-          <ProjectShowcase />
-        </div>
+      <CustomCursor />
+      
+      <AnimatePresence mode="wait">
+        {loading && <LoadingScreen key="loader" onDone={() => setLoading(false)} />}
+      </AnimatePresence>
 
-        <div id="projects">
-          <ProjectDiveScroll />
-        </div>
+      <CombinedNavbar />
+      
+      <div id="home">
+        <Hero startAnimation={!loading} />
+      </div>
 
-        <GridZoomHero />
+      <HeroStatement />
 
-        <QualificationsSection />
-        <PerspectiveMarqueeHero />
-        <div id="contact">
-          <FooterSection />
-        </div>
+      <div id="about">
+        <ProjectShowcase />
+      </div>
 
-      </>
+      <div id="projects">
+        <ProjectDiveScroll />
+      </div>
+
+      <GridZoomHero />
+      <QualificationsSection />
+      <PerspectiveMarqueeHero />
+
+      <div id="contact">
+        <FooterSection />
+      </div>
     </main>
   );
 }

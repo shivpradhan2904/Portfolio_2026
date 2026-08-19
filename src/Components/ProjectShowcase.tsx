@@ -103,7 +103,7 @@ useEffect(() => {
 
       {/* SECTION 1: HERO */}
       <section className="relative h-screen w-full flex flex-col justify-between p-6 sm:p-12 border-b border-zinc-800/60">
-        <div className="flex items-center justify-between font-mono text-xs text-zinc-400">
+        <div className="hidden sm:flex items-center  justify-between font-mono text-xs text-zinc-400">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-red-600 animate-ping" />
             <span className="text-zinc-200 tracking-wider">PORTFOLIO // 2026</span>

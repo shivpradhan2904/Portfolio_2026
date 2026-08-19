@@ -5,9 +5,8 @@ import Image from "next/image";
 import { motion, Variants } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 import { Mail, FileText, ArrowUpRight, ArrowUp } from "lucide-react";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa6";
+import { FaGithub, FaInstagram, FaLinkedin, FaTwitter, FaWhatsapp } from "react-icons/fa6";
 import { Chakra_Petch, Space_Grotesk, Inter } from "next/font/google";
 
 if (typeof window !== "undefined") {
@@ -52,49 +51,56 @@ const staggerContainer: Variants = {
 
 export default function FooterSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const imageWrapperRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-  const bigTextRef = useRef<HTMLHeadingElement>(null);
+  const revealImgRef = useRef<HTMLImageElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!revealImgRef.current) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const mask = `radial-gradient(circle 220px at ${x}px ${y}px, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, rgba(0,0,0,0) 100%)`;
+
+    gsap.to(revealImgRef.current, {
+      WebkitMaskImage: mask,
+      maskImage: mask,
+      duration: 0.05,
+      ease: "power1.out",
+      overwrite: "auto",
+    });
+  };
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!revealImgRef.current) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const mask = `radial-gradient(circle 220px at ${x}px ${y}px, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, rgba(0,0,0,0) 100%)`;
+
+    gsap.to(revealImgRef.current, {
+      WebkitMaskImage: mask,
+      maskImage: mask,
+      duration: 0.2,
+      ease: "power2.out",
+    });
+  };
+
+  const handleMouseLeave = () => {
+    if (!revealImgRef.current) return;
+    const hiddenMask = "radial-gradient(circle 0px at 50% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)";
+
+    gsap.to(revealImgRef.current, {
+      WebkitMaskImage: hiddenMask,
+      maskImage: hiddenMask,
+      duration: 0.3,
+      ease: "power2.inOut",
+    });
+  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  useGSAP(
-    () => {
-      if (!containerRef.current) return;
-
-      if (imageRef.current) {
-        gsap.to(imageRef.current, {
-          y: -10,
-          duration: 3,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-        });
-      }
-
-      if (imageWrapperRef.current) {
-        gsap.fromTo(
-          imageWrapperRef.current,
-          { y: 30 },
-          {
-            y: -20,
-            ease: "none",
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-            },
-          }
-        );
-      }
-
-      ScrollTrigger.refresh();
-    },
-    { scope: containerRef }
-  );
 
   return (
     <footer
@@ -103,10 +109,7 @@ export default function FooterSection() {
       style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
       <div className="max-w-[1600px] mx-auto relative z-10">
-
-        {/* TOP SECTION */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-
           {/* LEFT SIDE CONTENT */}
           <motion.div
             initial="hidden"
@@ -115,7 +118,6 @@ export default function FooterSection() {
             variants={staggerContainer}
             className="lg:col-span-6 flex flex-col items-center text-center lg:items-start lg:text-left w-full"
           >
-            {/* Title Text */}
             <motion.h1
               variants={fadeInUp}
               className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-bold uppercase tracking-tight text-white leading-[1.05]"
@@ -127,7 +129,6 @@ export default function FooterSection() {
               </span>
             </motion.h1>
 
-            {/* Subtext */}
             <motion.p
               variants={fadeInUp}
               className="mt-6 text-base sm:text-xl text-neutral-200 max-w-lg leading-relaxed"
@@ -139,7 +140,6 @@ export default function FooterSection() {
               </span>
             </motion.p>
 
-            {/* Social Links */}
             <motion.div
               variants={staggerContainer}
               className="mt-8 flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-start gap-2.5 sm:gap-3 w-full"
@@ -147,9 +147,9 @@ export default function FooterSection() {
               {[
                 { name: "GitHub", icon: FaGithub, href: "https://github.com" },
                 { name: "LinkedIn", icon: FaLinkedin, href: "https://linkedin.com" },
-                { name: "Twitter", icon: FaTwitter, href: "https://twitter.com" },
-                { name: "Email", icon: Mail, href: "mailto:contact@example.com" },
-                { name: "Resume", icon: FileText, href: "#resume" },
+                { name: "Instagram", icon: FaInstagram, href: "https://instagram.com" },
+                { name: "Email", icon: Mail, href: "mailto:sibapradhan2904@gmail.com" },
+                { name: "Whatsapp", icon: FaWhatsapp, href: "https://wa.me/9078738600" },
               ].map((link) => {
                 const Icon = link.icon;
 
@@ -180,32 +180,43 @@ export default function FooterSection() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT SIDE: PORTRAIT */}
-          <div className="lg:col-span-6 flex justify-center lg:justify-end relative pointer-events-none">
+          {/* RIGHT SIDE PORTRAIT */}
+          <div className="lg:col-span-6 flex justify-center lg:justify-end relative">
             <div
-              ref={imageWrapperRef}
-              className="relative w-72 h-[24rem] sm:w-[22rem] sm:h-[28rem] md:w-[26rem] md:h-[32rem] lg:w-[28rem] lg:h-[34rem]"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onMouseMove={handleMouseMove}
+              className="relative w-72 h-[24rem] sm:w-[22rem] sm:h-[28rem] md:w-[26rem] md:h-[32rem] lg:w-[28rem] lg:h-[34rem] pointer-events-auto cursor-crosshair overflow-hidden rounded-2xl bg-[#0a0a0c] border border-transparent transition-all duration-300"
             >
-              <div
-                className="w-full h-full relative z-10"
+              {/* Base Grayscale Image */}
+              <Image
+                src="/profile2.png"
+                alt="Portrait Grayscale"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover object-bottom filter grayscale contrast-125 z-10 pointer-events-none"
+                priority
+              />
+
+              {/* Overlaid Color Image with Pixel-Exact Radial Mask */}
+              <Image
+                ref={revealImgRef}
+                src="/profilebg.png"
+                alt="Portrait Color Reveal"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover object-bottom z-20 pointer-events-none"
                 style={{
-                  maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
-                  WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
+                  WebkitMaskImage: "radial-gradient(circle 0px at 50% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)",
+                  maskImage: "radial-gradient(circle 0px at 50% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)",
                 }}
-              >
-                <Image
-                  ref={imageRef}
-                  src="/profile.png"
-                  alt="Portrait"
-                  width={800}
-                  height={1000}
-                  className="object-cover object-bottom w-full h-full filter grayscale contrast-125 hover:grayscale-0 transition-all duration-700 pointer-events-auto"
-                  priority
-                />
-              </div>
+                priority
+              />
+
+              {/* Bottom fade shadow so the portrait blends into the footer */}
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/25 to-transparent z-30 pointer-events-none" />
             </div>
           </div>
-
         </div>
 
         {/* MIDDLE TAGLINE */}
@@ -234,26 +245,30 @@ export default function FooterSection() {
           style={{ fontFamily: "var(--font-space-grotesk), sans-serif" }}
         >
           <p className="tracking-wider text-center sm:text-left">
-            © {new Date().getFullYear()} <span className="text-neutral-300 font-semibold uppercase">Pradhan</span>. All rights reserved.
+            © {new Date().getFullYear()}{" "}
+            <span className="text-neutral-300 font-semibold uppercase">
+              Pradhan
+            </span>
+            . All rights reserved.
           </p>
 
           <button
             onClick={scrollToTop}
             className="group flex items-center gap-2 hover:text-white transition-colors duration-300 focus:outline-none"
           >
-            <span className="uppercase tracking-widest text-[11px]">Back to top</span>
+            <span className="uppercase tracking-widest text-[11px]">
+              Back to top
+            </span>
             <div className="flex items-center justify-center w-6 h-6 rounded-full bg-neutral-900 border border-neutral-800 group-hover:border-neutral-600 transition-colors duration-300">
               <ArrowUp className="w-3 h-3 transition-transform duration-300 group-hover:-translate-y-0.5" />
             </div>
           </button>
         </motion.div>
-
       </div>
 
       {/* FULL-WIDTH "PRADHAN" */}
       <div className="w-full text-center overflow-hidden pt-4 pb-0 leading-none pointer-events-none">
         <h1
-          ref={bigTextRef}
           className="text-[18vw] font-bold uppercase leading-[0.8] tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-neutral-100 via-50% to-neutral-700/80 block w-full whitespace-nowrap"
           style={{
             fontFamily: "var(--font-chakra), sans-serif",

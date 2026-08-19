@@ -10,7 +10,11 @@ const blackOps = Black_Ops_One({
   weight: ["400"],
 });
 
-export default function Hero() {
+interface HeroProps {
+  startAnimation: boolean;
+}
+
+export default function Hero({ startAnimation }: HeroProps) {
   return (
     <section
       className={`${blackOps.className} relative flex min-h-screen w-full flex-col justify-between overflow-hidden bg-[#0b0b0c] text-white select-none pt-20 pb-6 px-4 md:px-12`}
@@ -24,7 +28,7 @@ export default function Hero() {
       {/* Left Vertical White Tab */}
       <motion.div
         initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
+        animate={startAnimation ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }}
         transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         className="absolute left-0 top-1/2 hidden -translate-y-1/2 items-center justify-center rounded-r-2xl bg-white px-3 py-12 text-black shadow-[0_0_40px_rgba(255,255,255,0.12)] md:flex z-20"
       >
@@ -41,23 +45,23 @@ export default function Hero() {
       {/* Main Content Area */}
       <div className="relative z-10 mx-auto my-auto flex w-full max-w-[1550px] flex-col items-end justify-center space-y-1 md:space-y-2">
         
-        {/* ROW 1: [Top Left Text] + [UI & CODE] */}
+        {/* ROW 1 */}
         <div className="flex w-full items-center justify-end space-x-3 sm:space-x-4 md:space-x-6">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.7, delay: 0.6 }}
             className="hidden lg:block w-[clamp(180px,18vw,270px)] font-mono text-[clamp(9.5px,0.9vw,14px)] leading-[1.5] tracking-[0.12em] text-white/40 uppercase text-left shrink-0 self-center"
           >
             I turn ideas into smart digital experiences with code, data, and AI — built to grow and designed with people in mind.
           </motion.p>
 
-          <div className="flex items-center text-[12vw] xl:text-[11.5rem] font-extrabold uppercase tracking-tight leading-[0.85] whitespace-nowrap">
+          <div className="flex items-center text-[12vw] xl:text-[11.5rem] font-extrabold uppercase tracking-tight leading-[0.85] whitespace-nowrap overflow-hidden">
             <motion.span
               initial={{ y: "100%" }}
-              animate={{ y: 0 }}
+              animate={startAnimation ? { y: 0 } : { y: "100%" }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-white"
+              className="text-white inline-block"
             >
               UI &amp;&nbsp;
             </motion.span>
@@ -65,20 +69,20 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ROW 2: [SOFT] + [Zap Icon] + [WARE] */}
-        <div className="flex w-full items-center justify-end text-[12vw] xl:text-[11.5rem] font-extrabold uppercase tracking-tight leading-[0.85] whitespace-nowrap">
+        {/* ROW 2 */}
+        <div className="flex w-full items-center justify-end text-[12vw] xl:text-[11.5rem] font-extrabold uppercase tracking-tight leading-[0.85] whitespace-nowrap overflow-hidden">
           <motion.span
             initial={{ y: "100%" }}
-            animate={{ y: 0 }}
+            animate={startAnimation ? { y: 0 } : { y: "100%" }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white"
+            className="text-white inline-block"
           >
             SOFT
           </motion.span>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={startAnimation ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
             transition={{ duration: 0.5, delay: 0.5 }}
             className="flex items-center justify-center shrink-0 px-2 md:px-4"
           >
@@ -88,21 +92,21 @@ export default function Hero() {
           <ShineText delay={0.4}>WARE</ShineText>
         </div>
 
-        {/* ROW 3: [EN] + [Robot Icon] + [GINEER] + [Bottom Right Text] */}
+        {/* ROW 3 */}
         <div className="flex w-full items-center justify-end space-x-3 sm:space-x-4 md:space-x-6">
-          <div className="flex items-center text-[12vw] xl:text-[11.5rem] font-extrabold uppercase tracking-tight leading-[0.85] whitespace-nowrap">
+          <div className="flex items-center text-[12vw] xl:text-[11.5rem] font-extrabold uppercase tracking-tight leading-[0.85] whitespace-nowrap overflow-hidden">
             <motion.span
               initial={{ y: "100%" }}
-              animate={{ y: 0 }}
+              animate={startAnimation ? { y: 0 } : { y: "100%" }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-white"
+              className="text-white inline-block"
             >
               EN
             </motion.span>
 
             <motion.div
               initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
+              animate={startAnimation ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
               transition={{ duration: 0.5, delay: 0.7 }}
               className="flex items-center justify-center shrink-0 mx-2 md:mx-4"
             >
@@ -114,7 +118,7 @@ export default function Hero() {
 
           <motion.p
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.6, delay: 1 }}
             className="hidden lg:block w-[clamp(180px,18vw,270px)] font-mono text-[clamp(9.5px,0.9vw,14px)] leading-[1.5] tracking-[0.12em] text-white/40 uppercase text-left shrink-0 self-center"
           >
@@ -127,19 +131,19 @@ export default function Hero() {
       {/* Footer Line */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
         transition={{ duration: 0.6, delay: 1.1 }}
         className="relative z-10 w-full"
       >
         <div className="mb-4 h-px w-full bg-white/10" />
         <div className="flex items-center justify-center sm:justify-end font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase space-x-4">
           <span>HYDERABAD, TELANGANA</span>
-         <button
-  aria-label="Scroll down"
-  className="flex h-6 w-6 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white text-black transition-all duration-200 hover:scale-105 hover:bg-white/90 active:scale-95 shrink-0"
->
-  <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 stroke-[2.5]" />
-</button>
+          <button
+            aria-label="Scroll down"
+            className="flex h-6 w-6 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white text-black transition-all duration-200 hover:scale-105 hover:bg-white/90 active:scale-95 shrink-0"
+          >
+            <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 stroke-[2.5]" />
+          </button>
         </div>
       </motion.div>
     </section>

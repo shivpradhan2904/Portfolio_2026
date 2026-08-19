@@ -10,42 +10,42 @@ const GRID_ITEMS = [
   {
     id: 1,
     title: "NIGHTSCAPE",
-    img: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=800&q=80",
+    img: "/img/i6.png",
     style: "left-[2vw] md:left-[3vw] bottom-[6vh] md:bottom-[8vh] w-[42vw] md:w-[18vw] h-[28vh] md:h-[40vh]",
     flyTo: { x: "-100vw", y: "0vh" },
   },
   {
     id: 2,
     title: "LABORATORY",
-    img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80",
+    img: "/img/i5.png",
     style: "left-[48vw] md:left-[36vw] top-[6vh] w-[48vw] md:w-[32vw] h-[22vh] md:h-[28vh]",
     flyTo: { x: "0vw", y: "-100vh" },
   },
   {
     id: 3,
     title: "COMMUNITY",
-    img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
+    img: "/img/i1.jpg",
     style: "right-[2vw] md:right-[3vw] top-[28vh] md:top-[34vh] w-[42vw] md:w-[24vw] h-[25vh] md:h-[30vh]",
     flyTo: { x: "100vw", y: "0vh" },
   },
   {
     id: 4,
     title: "EVENT HALL",
-    img: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80",
+    img: "/img/i4.jpg",
     style: "left-[48vw] md:left-[24vw] bottom-[6vh] md:bottom-[6vh] w-[44vw] md:w-[28vw] h-[20vh] md:h-[22vh]",
     flyTo: { x: "0vw", y: "100vh" },
   },
   {
     id: 5,
     title: "TEAM MEET",
-    img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80",
+    img: "/img/i9.jpeg",
     style: "right-[2vw] md:right-[3vw] bottom-[6vh] md:bottom-[6vh] w-[48vw] md:w-[20vw] h-[20vh] md:h-[22vh]",
     flyTo: { x: "100vw", y: "100vh" },
   },
   {
     id: 6,
     title: "TELEMETRY",
-    img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+    img: "/img/i.jpeg",
     style: "hidden md:block right-[3vw] top-[8vh] w-[15vw] h-[20vh]",
     flyTo: { x: "100vw", y: "-100vh" },
   },
@@ -53,7 +53,7 @@ const GRID_ITEMS = [
 
 const CENTER_FEATURED = {
   title: "CHAPTERS & CITIES",
-  img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80",
+  img: "/img/i10.png",
 };
 
 export default function GridZoomHero() {
