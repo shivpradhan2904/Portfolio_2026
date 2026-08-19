@@ -16,10 +16,10 @@ const TICKER_ITEMS_2 = [
   "TYPESCRIPT",
   "NODE.JS",
   "REACT",
+  "EXPRESS",
+  "MONGODB",
   "TAILWIND CSS",
-  "POSTGRESQL",
-  "DOCKER",
-  "AWS",
+   "DOCKER",
 ];
 
 export default function PerspectiveMarqueeHero() {

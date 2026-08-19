@@ -1,122 +1,213 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { GitBranch, Maximize2 } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MapPin, Compass, Music, Gamepad2, Sparkles, ArrowRight, Terminal } from "lucide-react";
 
-const STATS = [
-  { label: "PRIMARY STACK", value: "NEXT / NODE" },
-  { label: "DATABASE", value: "POSTGRES" },
-  { label: "UI ENGINE", value: "TAILWIND" },
-];
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
-export default function ProjectShowcase() {
+const PERSONAL_DATA = {
+  name: "SIBA PRADHAN",
+  subtitle: "CREATIVE EXPLORER & BUILDER",
+  origin: "Bhubaneswar, Odisha",
+  location: "Hyderabad, TS",
+  bio: "Bridging architectural precision with creative exploration. Based in Hyderabad, focused on crafting high-level digital experiences, strategic systems, and scalable UI structures.",
+  tracks: [
+    {
+      id: "01",
+      title: "EXPLORATION",
+      subtitle: "Wanderlust & Travel",
+      desc: "Navigating new routes across Entire India.",
+      icon: Compass,
+      tag: "DESTINATIONS",
+    },
+    {
+      id: "02",
+      title: "SOUNDSCAPES",
+      subtitle: "Music & Audio",
+      desc: "Curating ambient, high-energy, and tactical soundscapes.",
+      icon: Music,
+      tag: "BEATS & AUDIO",
+    },
+    {
+      id: "03",
+      title: "TACTICS",
+      subtitle: "Chess & Strategy",
+      desc: "Endgame analysis, tactical positioning, and strategic thinking.",
+      icon: Gamepad2,
+      tag: "CHESS ♟️",
+    },
+  ],
+};
+
+export default function CharcoalRedShowcase() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const horizontalRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLHeadingElement>(null);
 
-  // Track scroll progress through the section
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"],
+    offset: ["start start", "end end"],
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 140,
-    damping: 26,
-    restDelta: 0.001,
+    stiffness: 100,
+    damping: 20,
   });
 
-  // --- RESPONSIVE BOX EXPANSION TIMINGS ---
-  // Expands closer to 95vw / 75vh on mobile screens to fit all stacked content
-  const boxWidth = useTransform(smoothProgress, [0.1, 0.5], ["85vw", "95vw"]);
-  const boxHeight = useTransform(smoothProgress, [0.1, 0.5], ["40vh", "75vh"]);
-  const boxY = useTransform(smoothProgress, [0.0, 0.5], ["60px", "0px"]);
-  const borderRadius = useTransform(smoothProgress, [0.1, 0.5], ["20px", "16px"]);
+  const progressBar = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
-  // --- CONTENT REVEAL TIMINGS ---
-  const contentY = useTransform(smoothProgress, [0.25, 0.5], [15, 0]);
-  const contentOpacity = useTransform(smoothProgress, [0.25, 0.5], [0, 1]);
+useEffect(() => {
+  const ctx = gsap.context(() => {
+    const sections = gsap.utils.toArray<HTMLElement>(".horizontal-panel");
+
+    if (sections.length > 0 && horizontalRef.current) {
+      gsap.to(sections, {
+        xPercent: -100 * (sections.length - 1),
+        ease: "none",
+        scrollTrigger: {
+          trigger: horizontalRef.current,
+          pin: true,
+          scrub: 1,
+          snap: 1 / (sections.length - 1),
+          invalidateOnRefresh: true,
+          // CHANGE HERE: Replace offsetWidth with exact horizontal translation distance
+          end: () => `+=${(sections.length - 1) * window.innerWidth}`,
+        },
+      });
+    }
+
+    // ... rest of your GSAP logic ...
+  }, containerRef);
+
+  return () => ctx.revert();
+}, []);
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[130vh] sm:h-[100vh] bg-[#0b0b0c] text-white selection:bg-red-500 selection:text-white"
+      className="relative w-full bg-[#0b0b0c] text-zinc-100 selection:bg-red-600 selection:text-white font-sans overflow-x-hidden"
     >
-      {/* Sticky Container for centered scroll effect */}
-      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden px-3 sm:px-6">
-        
-        {/* Main Floating Charcoal Box */}
-        <motion.div
-          style={{
-            width: boxWidth,
-            height: boxHeight,
-            y: boxY,
-            borderRadius: borderRadius,
-          }}
-          className="relative z-30 flex flex-col justify-between overflow-hidden border border-white/10 bg-[#0d0d0f] p-5 sm:p-8 md:p-12 shadow-[0_0_60px_rgba(239,68,68,0.1)]"
-        >
-          {/* Subtle Ambient Red Glow */}
-          <div className="absolute -top-24 -left-24 h-48 w-48 sm:h-64 sm:w-64 rounded-full bg-red-600/10 blur-[70px] sm:blur-[90px] pointer-events-none" />
+      {/* Top Progress Bar */}
+      {/* <motion.div
+        style={{ width: progressBar }}
+        className="fixed top-0 left-0 h-1 bg-red-600 z-50 shadow-[0_0_10px_#dc2626]"
+      /> */}
 
-          {/* TOP BAR: BADGE & EXPAND BUTTON */}
-          <motion.div
-            style={{ y: contentY, opacity: contentOpacity }}
-            className="relative z-10 flex items-center justify-between gap-2"
+      {/* Background Mesh */}
+      <div className="fixed inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#1f1f23_1px,transparent_1px)] [background-size:24px_24px]" />
+
+      {/* SECTION 1: HERO */}
+      <section className="relative h-screen w-full flex flex-col justify-between p-6 sm:p-12 border-b border-zinc-800/60">
+        <div className="flex items-center justify-between font-mono text-xs text-zinc-400">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-red-600 animate-ping" />
+            <span className="text-zinc-200 tracking-wider">PORTFOLIO // 2026</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="hidden sm:inline text-zinc-500">ORIGIN: {PERSONAL_DATA.origin}</span>
+            <span className="flex items-center gap-1 text-red-500 border border-red-900/40 bg-red-950/20 px-2.5 py-1 rounded">
+              <MapPin size={12} /> {PERSONAL_DATA.location}
+            </span>
+          </div>
+        </div>
+
+        <div className="my-auto space-y-6 max-w-5xl">
+          <div className="inline-flex items-center gap-2 font-mono text-xs text-red-500 tracking-widest uppercase">
+            <Sparkles size={14} />
+            <span>{PERSONAL_DATA.subtitle}</span>
+          </div>
+
+          <h1
+            ref={textRef}
+            className="text-5xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase text-zinc-100 leading-none"
           >
-            {/* Top-Left Tag/Badge */}
-            <div className="flex items-center gap-1.5 sm:gap-2 font-mono text-[10px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest text-zinc-400 uppercase">
-              <GitBranch size={14} className="text-zinc-300 shrink-0 sm:w-4 sm:h-4" />
-              <span className="truncate">DEVELOPMENT WORKFLOW</span>
-            </div>
+            {PERSONAL_DATA.name.split(" ")[0]} <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-zinc-400 hero-text-glow">
+              {PERSONAL_DATA.name.split(" ")[1]}
+            </span>
+          </h1>
 
-            {/* Top-Right Circular Action Icon */}
-            <button
-              aria-label="Expand Showcase"
-              className="flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-zinc-200/90 text-black hover:bg-white hover:scale-105 transition-all shadow-md"
-            >
-              <Maximize2 size={14} className="rotate-45 sm:w-4 sm:h-4" />
-            </button>
-          </motion.div>
+          <p className="text-base sm:text-xl text-zinc-400 max-w-2xl font-light leading-relaxed">
+            {PERSONAL_DATA.bio}
+          </p>
+        </div>
 
-          {/* MIDDLE SECTION: MAIN HEADLINE & SIDE DESCRIPTION */}
-          <motion.div
-            style={{ y: contentY, opacity: contentOpacity }}
-            className="relative z-10 my-auto grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-center py-2 sm:py-0"
-          >
-            {/* Left Big Heading */}
-            <div className="lg:col-span-8">
-              <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15] sm:leading-[1.1]">
-                Modern Stack, <br className="hidden sm:block" />
-                zero <span className="text-red-500 underline decoration-red-500/40">compromises.</span> 🛠️
-              </h2>
-            </div>
+        <div className="flex items-center justify-between font-mono text-xs text-zinc-500 pt-4 border-t border-zinc-900">
+          <span className="flex items-center gap-2">
+            <Terminal size={14} className="text-red-600" /> SCROLL DOWN TO EXPLORE
+          </span>
+          <ArrowRight size={16} className="text-red-500 animate-pulse" />
+        </div>
+      </section>
 
-            {/* Right Side Description */}
-            <div className="lg:col-span-4">
-              <p className="font-sans text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-sm">
-                Leveraging type-safe architecture, component-driven UI, and robust CI/CD pipelines to ship code efficiently.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* BOTTOM SECTION: STAT METRICS */}
-          <motion.div
-            style={{ y: contentY, opacity: contentOpacity }}
-            className="relative z-10 flex flex-wrap items-center gap-6 sm:gap-10 md:gap-16 pt-2 sm:pt-4"
-          >
-            {STATS.map((stat, i) => (
-              <div key={i} className="flex flex-col gap-0.5">
-                <span className="text-xl sm:text-2xl md:text-3xl font-extrabold text-red-500 tracking-tight">
-                  {stat.value}
+      {/* SECTION 2: HORIZONTAL TRACK PANELS */}
+      <section ref={horizontalRef} className="relative h-screen w-full overflow-hidden bg-[#0b0b0c]">
+        <div className="flex h-full w-[300vw]">
+          {PERSONAL_DATA.tracks.map((track, idx) => {
+            const Icon = track.icon;
+            return (
+              <div
+                key={idx}
+                className="horizontal-panel w-screen h-full flex flex-col justify-between p-8 sm:p-16 border-r border-zinc-800/80 relative"
+              >
+                <span className="absolute right-8 bottom-4 text-[18vw] font-black text-zinc-900/40 select-none pointer-events-none font-mono">
+                  {track.id}
                 </span>
-                <span className="font-mono text-[9px] sm:text-[10px] font-semibold tracking-wider text-zinc-500 uppercase">
-                  {stat.label}
-                </span>
+
+                <div className="flex items-center justify-between relative z-10">
+                  <span className="font-mono text-xs text-red-500 tracking-widest border-b border-red-600/40 pb-1">
+                    //{track.tag}
+                  </span>
+                  <Icon size={32} className="text-red-500" />
+                </div>
+
+                <div className="relative z-10 max-w-2xl space-y-4">
+                  <span className="font-mono text-sm text-zinc-400">{track.subtitle}</span>
+                  <h2 className="text-4xl sm:text-7xl font-bold tracking-tight text-white uppercase">
+                    {track.title}
+                  </h2>
+                  <p className="text-base sm:text-lg text-zinc-400 font-light leading-relaxed">
+                    {track.desc}
+                  </p>
+                </div>
+
+                <div className="relative z-10 flex items-center gap-4 font-mono text-xs text-zinc-500">
+                  <span className="h-1.5 w-1.5 bg-red-600 rounded-full" />
+                  <span>PANEL {idx + 1} OF 3</span>
+                </div>
               </div>
-            ))}
-          </motion.div>
+            );
+          })}
+        </div>
+      </section>
 
-        </motion.div>
-      </div>
+      {/* SECTION 3: OUTRO */}
+      <section className="relative min-h-[60vh] w-full p-8 sm:p-16 flex flex-col justify-between bg-[#08080a] border-t border-zinc-800/80">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 my-auto">
+          <div className="space-y-2 border-l-2 border-red-600 pl-4">
+            <span className="font-mono text-xs text-zinc-500 uppercase">Hometown</span>
+            <p className="text-xl font-bold text-white uppercase">{PERSONAL_DATA.origin}</p>
+          </div>
+          <div className="space-y-2 border-l-2 border-red-600 pl-4">
+            <span className="font-mono text-xs text-zinc-500 uppercase">Current Base</span>
+            <p className="text-xl font-bold text-white uppercase">{PERSONAL_DATA.location}</p>
+          </div>
+          <div className="space-y-2 border-l-2 border-red-600 pl-4">
+            <span className="font-mono text-xs text-zinc-500 uppercase">Focus Game</span>
+            <p className="text-xl font-bold text-white uppercase">Chess ♟️</p>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-12 border-t border-zinc-900 font-mono text-xs text-zinc-500">
+          <span>SIBA PRADHAN — DIGITAL PROFILE</span>
+          <span className="text-red-500">AVAILABLE FOR COLLABORATION</span>
+        </div>
+      </section>
     </div>
   );
 }

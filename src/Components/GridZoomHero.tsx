@@ -198,7 +198,7 @@ export default function GridZoomHero() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative z-0 h-[350vh] bg-[#0b0b0c] text-zinc-100">
+    <section ref={sectionRef} className="hidden md:block relative z-0 h-[350vh] bg-[#0b0b0c] text-zinc-100">
       <div
         ref={pinRef}
         className="relative z-10 flex h-screen w-full items-center justify-center overflow-hidden bg-[#0b0b0c]"
@@ -250,7 +250,7 @@ export default function GridZoomHero() {
         {/* CENTER FEATURED CARD */}
         <div
           ref={centerCardRef}
-          className="absolute z-20 left-[28vw] md:left-[38vw] top-[40vh] md:top-[38vh] w-[44vw] md:w-[24vw] h-[24vh] md:h-[30vh] overflow-hidden rounded-[20px] md:rounded-[24px] border-2 border-red-600/60 bg-zinc-900 shadow-[0_0_30px_rgba(220,38,38,0.2)] flex items-center justify-center cursor-pointer group"
+          className="absolute z-20 left-[28vw] md:left-[38vw] top-[40vh] md:top-[38vh] w-[44vw] md:w-[24vw] h-[24vh] md:h-[30vh] overflow-hidden rounded-[20px] md:rounded-[24px]  bg-zinc-900 shadow-[0_0_30px_rgba(220,38,38,0.2)] flex items-center justify-center cursor-pointer group"
         >
           <img
             src={CENTER_FEATURED.img}
@@ -265,8 +265,8 @@ export default function GridZoomHero() {
             </span>
 
             {/* Scroll Indicator Button at the center/bottom */}
-            <div className="flex items-center gap-2 rounded-full bg-red-600 hover:bg-red-700 px-4 md:px-5 py-2 text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-white shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:bg-red-500">
-              <span>SCROLL  <span className="hidden lg:block">TO EXPLORE </span></span>
+            <div className="flex items-center gap-2 rounded-full  px-4 md:px-5 py-2 text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-white shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:bg-red-500">
+              <span className="flex gap-2">SCROLL  <span className="hidden lg:block">TO EXPLORE </span></span>
               <span className="text-xs transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                 ↓
               </span>
@@ -274,11 +274,10 @@ export default function GridZoomHero() {
           </div>
         </div>
 
-        {/* TRANSITION PORTAL OVERLAY */}
-        {/* TRANSITION PORTAL OVERLAY */}
+         {/* TRANSITION PORTAL OVERLAY */}
         <div
           ref={portalExpandRef}
-          className="absolute inset-0 z-30 flex h-full w-full flex-col items-center justify-center bg-[#0b0b0c] border-red-600 pointer-events-none px-6 text-center"
+          className="absolute inset-0 z-30 flex h-full w-full flex-col items-center justify-center bg-[#0b0b0c] border border-white/20 pointer-events-none px-6 text-center"
         >
           {/* INNER TEXT CONTAINER FOR GSAP OPACITY FADE */}
           <div ref={portalTextRef} className="flex flex-col items-center justify-center">
@@ -289,7 +288,7 @@ export default function GridZoomHero() {
               </p>
             </div>
             <h2 className="text-2xl md:text-5xl font-extrabold tracking-tight text-zinc-100 max-w-2xl uppercase">
-              CHAPTERS IN CODE & <span className="text-red-600">EXPLORATION</span>
+              EXPERIENCE & JOURNEY <span className="text-red-600">EXPLORATION</span>
             </h2>
           </div>
         </div>

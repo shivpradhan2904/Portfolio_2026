@@ -75,10 +75,10 @@ export default function QualificationsSection() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen w-full bg-[#0b0b0c] text-white px-4 sm:px-6 py-12 sm:py-16 md:py-24 selection:bg-red-500 selection:text-white overflow-hidden"
+      className="relative min-h-screen w-full bg-[#0b0b0c] text-white px-4 sm:px-6 md:px-12 py-12 sm:py-16 md:py-24 selection:bg-red-500 selection:text-white overflow-hidden"
     >
-      <div className="max-w-5xl mx-auto">
-
+      {/* FIXED: Removed fixed min-w-[1400px] and replaced with fluid max-width max-w-7xl */}
+      <div className="w-full max-w-7xl mx-auto">
         {/* MAIN CONTENT */}
         <div ref={contentRef} className="opacity-0 translate-y-8 space-y-10 sm:space-y-12 md:space-y-16">
 
@@ -95,7 +95,7 @@ export default function QualificationsSection() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12">
 
             {/* CAREER EXPERIENCE */}
             <div className="space-y-5 sm:space-y-6">
@@ -106,16 +106,16 @@ export default function QualificationsSection() {
 
               <div className="space-y-6 sm:space-y-8">
                 {QUALIFICATIONS.experience.map((exp, i) => (
-                  <div key={i} className="relative border-l-2 border-red-500/40 pl-5 sm:pl-6 py-0.5 space-y-1">
+                  <div key={i} className="relative border-l-2 border-red-500/40 pl-4 sm:pl-6 py-0.5 space-y-1">
                     <div className="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full border-2 border-red-500 bg-[#0b0b0c]" />
-                    <span className="font-mono text-[10px] text-red-400 tracking-widest block">
+                    <span className="font-mono text-[10px] sm:text-xs text-red-400 tracking-widest block">
                       {exp.period}
                     </span>
                     <h4 className="font-mono text-base sm:text-lg font-bold text-white leading-snug">
                       {exp.role}
                     </h4>
                     <p className="font-mono text-xs text-zinc-400">{exp.company}</p>
-                    <p className="font-sans text-xs text-zinc-500 leading-relaxed pt-1">
+                    <p className="font-sans text-xs sm:text-sm text-zinc-500 leading-relaxed pt-1">
                       {exp.desc}
                     </p>
                   </div>
@@ -133,9 +133,9 @@ export default function QualificationsSection() {
               <div className="space-y-4">
                 {QUALIFICATIONS.education.map((edu, i) => (
                   <div key={i} className="border border-white/10 rounded-xl bg-[#121214] p-4 sm:p-5 space-y-2 hover:border-red-500/40 transition-all">
-                    <div className="flex flex-wrap justify-between items-center gap-2">
-                      <span className="font-mono text-[10px] text-zinc-500">{edu.year}</span>
-                      <span className="font-mono text-[11px] text-red-500 bg-red-950/30 px-2 py-0.5 rounded border border-red-500/20">
+                    <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-1 xs:gap-2">
+                      <span className="font-mono text-[10px] sm:text-xs text-zinc-500">{edu.year}</span>
+                      <span className="font-mono text-[10px] sm:text-[11px] text-red-500 bg-red-950/30 px-2 py-0.5 rounded border border-red-500/20 w-fit">
                         SCORE: {edu.gpa}
                       </span>
                     </div>
@@ -177,6 +177,7 @@ export default function QualificationsSection() {
               ))}
             </div>
           </div>
+
         </div>
       </div>
     </section>

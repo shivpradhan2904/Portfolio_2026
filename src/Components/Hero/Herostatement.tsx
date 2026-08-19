@@ -94,10 +94,10 @@ export default function HeroStatement() {
       className="relative w-full bg-[#0b0b0c] text-white overflow-hidden py-8 sm:py-12"
     >
       {/* Corner accents */}
-      <span className="absolute left-3 top-3 sm:left-4 sm:top-4 h-1.5 w-1.5 rounded-full bg-rose-600 z-10" />
-      <span className="absolute right-3 top-3 sm:right-4 sm:top-4 h-1.5 w-1.5 rounded-full bg-rose-600/60 z-10" />
-      <span className="absolute left-3 bottom-3 sm:left-4 sm:bottom-4 h-1.5 w-1.5 rounded-full bg-rose-600/60 z-10" />
-      <span className="absolute right-3 bottom-3 sm:right-4 sm:bottom-4 h-1.5 w-1.5 rounded-full bg-rose-600 z-10" />
+      <span className="absolute left-3 top-3 sm:left-4 sm:top-4 h-1.5 w-1.5 rounded-full bg-red-600 z-10" />
+      <span className="absolute right-3 top-3 sm:right-4 sm:top-4 h-1.5 w-1.5 rounded-full bg-red-600/60 z-10" />
+      <span className="absolute left-3 bottom-3 sm:left-4 sm:bottom-4 h-1.5 w-1.5 rounded-full bg-red-600/60 z-10" />
+      <span className="absolute right-3 bottom-3 sm:right-4 sm:bottom-4 h-1.5 w-1.5 rounded-full bg-red-600 z-10" />
 
       {/* Frame line */}
       <motion.div
@@ -105,7 +105,7 @@ export default function HeroStatement() {
         className="pointer-events-none absolute inset-2 sm:inset-4 border border-white/10"
       />
 
-      <div className="relative mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12 py-12 sm:py-16 lg:py-20">
+      <div className="relative px-4 sm:px-8 lg:px-12 py-12 sm:py-16 lg:py-20">
         {/* Eyebrow row */}
         <motion.div
           initial="hidden"
@@ -116,9 +116,9 @@ export default function HeroStatement() {
         >
           <motion.span
             variants={fadeUp}
-            className="flex items-center gap-2 font-semibold uppercase text-rose-500"
+            className="flex items-center gap-2 font-semibold uppercase text-red-500"
           >
-            <span className="text-rose-500">❝</span> I Believe
+            <span className="text-red-500">❝</span> I Believe
           </motion.span>
           <motion.span variants={fadeUp} className="uppercase text-white/40">
             Systems &amp; Software Engineering
@@ -201,7 +201,7 @@ export default function HeroStatement() {
               </p>
               <a
                 href="#projects"
-                className="mt-3 inline-block text-sm italic text-rose-500 hover:text-rose-400 transition-colors"
+                className="mt-3 inline-block text-sm italic text-red-500 hover:text-red-400 transition-colors"
               >
                 Turning ideas into live products
               </a>
@@ -220,7 +220,7 @@ export default function HeroStatement() {
               {/* Signature Block */}
               <div className="mt-6 flex flex-col items-center gap-3 sm:items-start text-center sm:text-left">
                 <span className="flex items-center gap-1.5 text-[10px] font-medium tracking-[0.2em] text-white/40 uppercase">
-                  <span className="h-px w-3 bg-rose-500/80 inline-block" />
+                  <span className="h-px w-3 bg-red-500/80 inline-block" />
                   By
                 </span>
                 <p className={`${allura.className} text-8xl text-white/90 select-none -mt-1 sm:-mt-2`}>
