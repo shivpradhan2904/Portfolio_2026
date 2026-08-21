@@ -40,14 +40,14 @@ const PROJECTS: Project[] = [
   {
     index: "01",
     title: "Stemify",
-    category: "Social Platform",
+    category: "Video & Social Platform",
     description:
-      "A next-gen social media platform built for STEM enthusiasts — featuring real-time feed updates, interactive code snippet sharing, and community-driven topic hubs.",
-    tags: ["Next.js", "Tailwind CSS", "MongoDB", "Daisy UI", "Stream"],
+      "A next-gen video calling and social platform built for STEM enthusiasts — featuring real-time video streaming, interactive code snippet sharing, and community-driven topic hubs.",
+    tags: ["React", "Tailwind CSS", "MongoDB", "Daisy UI", "Stream"],
     accent: "#ef4444",
     gradient: "from-red-600 via-zinc-900 to-black",
     image:
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
+      "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=800&q=80", // Video conference call UI theme
   },
   {
     index: "02",
@@ -58,7 +58,7 @@ const PROJECTS: Project[] = [
     tags: ["React", "Framer Motion", "Tailwind CSS", "TypeScript"],
     accent: "#ffffff",
     image:
-      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80",
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80", // Modern gourmet dish presentation
   },
   {
     index: "03",
@@ -69,8 +69,7 @@ const PROJECTS: Project[] = [
     tags: ["Next.js", "Node.js", "MongoDB"],
     accent: "#ef4444",
     gradient: "from-zinc-800 via-red-950 to-neutral-950",
-    image:
-      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80",
+   image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80"
   },
 ];
 
