@@ -9,7 +9,6 @@ const blackOpsOne = Black_Ops_One({
   subsets: ["latin"],
 });
 
-// Structured into [Top Line, Bottom Line] pairs
 const DUMMY_TEXT_PAIRS = [
   ["INITIALIZING", "PORTFOLIO"],
   ["LOADING", "ASSETS"],
@@ -25,7 +24,7 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
   const [progress, setProgress] = useState(0);
   const [textIndex, setTextIndex] = useState(0);
 
-  // 1. Counter logic (0 to 100)
+  // Counter logic (0 to 100)
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -40,12 +39,12 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
     return () => clearInterval(interval);
   }, []);
 
-  // 2. Text sequence timer & completion trigger
+  // Text sequence timer & completion trigger
   useEffect(() => {
     if (progress === 100) {
       const exitTimer = setTimeout(() => {
         onDone();
-      }, 1000);
+      }, 500);
       return () => clearTimeout(exitTimer);
     }
 
@@ -64,13 +63,11 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
       initial={{ y: 0 }}
       exit={{
         y: "-100%",
-        transition: { duration: 1.0, ease: [0.76, 0, 0.24, 1] },
+        transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
       }}
     >
-      {/* Subtle Charcoal Grid Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f1f23_1px,transparent_1px),linear-gradient(to_bottom,#1f1f23_1px,transparent_1px)] bg-[size:3rem_3rem] sm:bg-[size:4rem_4rem] opacity-20 pointer-events-none" />
 
-      {/* TOP-LEFT: Big 2-Row Animated Text */}
       <div className="relative z-10 pt-2 sm:pt-4 w-full max-w-7xl">
         <AnimatePresence mode="wait">
           <motion.div
@@ -81,7 +78,6 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
             transition={{ duration: 0.2 }}
             className="flex flex-col space-y-0 sm:space-y-1"
           >
-            {/* ROW 1: Smaller Action Text */}
             <div className="overflow-hidden h-8 sm:h-14 md:h-20 flex items-center">
               <motion.span
                 initial={{ y: "100%", opacity: 0, filter: "blur(10px)" }}
@@ -94,7 +90,6 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
               </motion.span>
             </div>
 
-            {/* ROW 2: Massive Target Text */}
             <div className="overflow-hidden h-16 sm:h-28 md:h-40 flex items-center">
               <motion.h1
                 initial={{ y: "100%", opacity: 0, filter: "blur(12px)" }}
@@ -114,7 +109,6 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
         </AnimatePresence>
       </div>
 
-      {/* BOTTOM-RIGHT: Counter & Status Bar */}
       <div className="relative z-10 flex flex-col items-end space-y-3 sm:space-y-4">
         <div className="flex items-baseline space-x-2">
           <span className="text-7xl sm:text-8xl md:text-9xl tracking-tight text-white leading-none">
@@ -125,7 +119,6 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
           </span>
         </div>
 
-        {/* Bottom Progress Bar Track */}
         <div className="w-full max-w-xs sm:max-w-md h-1.5 bg-[#1f1f23] rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-white"
