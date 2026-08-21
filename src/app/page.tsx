@@ -17,7 +17,7 @@ import { CustomCursor } from "../Components/CustomCursor";
 export default function Page() {
   const [loading, setLoading] = useState(true);
 
-  // 1. Force page scroll to top on fresh load / refresh
+  // 1. Reset scroll position on initial load
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
@@ -25,17 +25,29 @@ export default function Page() {
     window.scrollTo(0, 0);
   }, []);
 
-  // 2. Lock / unlock background scroll based on loading state
+  // 2. Lock screen completely during loading state
   useEffect(() => {
     if (loading) {
       window.scrollTo(0, 0);
       document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.top = "0";
+      document.body.style.touchAction = "none";
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      document.body.style.touchAction = "";
     }
 
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      document.body.style.touchAction = "";
     };
   }, [loading]);
 
@@ -47,28 +59,34 @@ export default function Page() {
         {loading && <LoadingScreen key="loader" onDone={() => setLoading(false)} />}
       </AnimatePresence>
 
-      <CombinedNavbar />
-      
-      <div id="home">
-        <Hero startAnimation={!loading} />
-      </div>
+      {/* Hide and disable background components during loading */}
+      <div 
+        aria-hidden={loading} 
+        className={loading ? "pointer-events-none select-none invisible" : "visible"}
+      >
+        <CombinedNavbar />
+        
+        <div id="home">
+          <Hero startAnimation={!loading} />
+        </div>
 
-      <HeroStatement />
+        <HeroStatement />
 
-      <div id="about">
-        <ProjectShowcase />
-      </div>
+        <div id="about">
+          <ProjectShowcase />
+        </div>
 
-      <div id="projects">
-        <ProjectDiveScroll />
-      </div>
+        <div id="projects">
+          <ProjectDiveScroll />
+        </div>
 
-      <GridZoomHero />
-      <QualificationsSection />
-      <PerspectiveMarqueeHero />
+        <GridZoomHero />
+        <QualificationsSection />
+        <PerspectiveMarqueeHero />
 
-      <div id="contact">
-        <FooterSection />
+        <div id="contact">
+          <FooterSection />
+        </div>
       </div>
     </main>
   );

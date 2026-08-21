@@ -115,8 +115,19 @@ export default function CombinedNavbar() {
     setHoveredItem(name);
   };
 
+    const handleResumeDownload = () => {
+    const resumeUrl = "/Siba_Pradhan_Resume.pdf";
+    const link = document.createElement("a");
+    link.href = resumeUrl;
+    link.download = "Shiv_Resume.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
 const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof NAV_ITEMS[0]) => {
   if (item.isDownload) {
+    handleResumeDownload();
     closeAll();
     return;
   }
@@ -328,6 +339,7 @@ const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof NAV
             }}
           >
             {/* Tooltip */}
+{/* Tooltip */}
 <AnimatePresence>
   {isOpen && hoveredItem && hoveredData && (
     <motion.div
@@ -341,9 +353,16 @@ const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof NAV
       }}
       exit={{ opacity: 0, scale: 0.92 }}
       transition={{ type: "spring", stiffness: 260, damping: 22 }}
-      className="absolute bottom-6 left-1/2 -ml-[52px] z-50 pointer-events-none" // ensure z-50 & pointer-events-none
+      className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none whitespace-nowrap"
     >
-      {/* ... tooltip contents ... */}
+      <div className="flex flex-col items-center px-3 py-1.5 rounded-lg bg-neutral-900/90 border border-white/20 text-white shadow-xl backdrop-blur-md">
+        <span className={`${poppins.className} text-xs font-semibold`}>
+          {hoveredData.name}
+        </span>
+        <span className={`${poppins.className} text-[10px] text-neutral-400`}>
+          {hoveredData.meta}
+        </span>
+      </div>
     </motion.div>
   )}
 </AnimatePresence>
