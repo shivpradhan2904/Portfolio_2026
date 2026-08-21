@@ -13,6 +13,7 @@ import QualificationsSection from "../Components/QualificationsSection";
 import PerspectiveMarqueeHero from "../Components/PerspectiveMarqueeHero";
 import FooterSection from "../Components/FooterSection";
 import { CustomCursor } from "../Components/CustomCursor";
+import SmoothScroll from "../Helpers/SmoothScroll";
 
 export default function Page() {
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,7 @@ export default function Page() {
 
   return (
     <main className="min-h-screen bg-black">
+      <SmoothScroll/>
       <CustomCursor />
 
       <AnimatePresence mode="wait">
