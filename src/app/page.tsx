@@ -18,7 +18,6 @@ import SmoothScroll from "../Helpers/SmoothScroll";
 export default function Page() {
   const [loading, setLoading] = useState(true);
 
-  // Prevent browser scroll restoration
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";

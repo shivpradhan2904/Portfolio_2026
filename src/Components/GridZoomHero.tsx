@@ -17,7 +17,7 @@ const GRID_ITEMS = [
   {
     id: 2,
     title: "LABORATORY",
-    img: "/img/i5.png",
+    img: "/f1.jpg",
     style: "left-[48vw] md:left-[36vw] top-[6vh] w-[48vw] md:w-[32vw] h-[22vh] md:h-[28vh]",
     flyTo: { x: "0vw", y: "-100vh" },
   },
@@ -53,7 +53,7 @@ const GRID_ITEMS = [
 
 const CENTER_FEATURED = {
   title: "CHAPTERS & CITIES",
-  img: "/img/i10.png",
+  video: "/f3.MOV",
 };
 
 export default function GridZoomHero() {
@@ -62,7 +62,7 @@ export default function GridZoomHero() {
   const centerCardRef = useRef<HTMLDivElement | null>(null);
   const sideCardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const portalExpandRef = useRef<HTMLDivElement | null>(null);
-  const portalTextRef = useRef<HTMLDivElement | null>(null); // Dedicated Ref for Text
+  const portalTextRef = useRef<HTMLDivElement | null>(null);
   const textContentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export default function GridZoomHero() {
           0
         );
 
-        // 2. Disperse surrounding cards
+        // 2. Disperse surrounding cards outwards
         GRID_ITEMS.forEach((item, index) => {
           const card = sideCardsRef.current[index];
           if (card) {
@@ -111,7 +111,7 @@ export default function GridZoomHero() {
           }
         });
 
-        // 3. Expand Center Card to full viewport
+        // 3. Zoom Center Video Card to full screen viewport
         tl.to(
           centerCardRef.current,
           {
@@ -120,7 +120,7 @@ export default function GridZoomHero() {
             left: "0vw",
             top: "0vh",
             borderRadius: "0px",
-            borderColor: "#dc2626",
+            boxShadow: "0 0 0px rgba(0,0,0,0)",
             duration: 1.5,
             ease: "power3.inOut",
           },
@@ -140,7 +140,7 @@ export default function GridZoomHero() {
           "-=0.6"
         );
 
-        // 5. Fade out ONLY the Portal Text as scroll continues
+        // 5. Fade out Portal Text
         tl.to(
           portalTextRef.current,
           {
@@ -247,15 +247,19 @@ export default function GridZoomHero() {
           </div>
         ))}
 
-        {/* CENTER FEATURED CARD */}
+        {/* CENTER FEATURED VIDEO CARD */}
         <div
           ref={centerCardRef}
-          className="absolute z-20 left-[28vw] md:left-[38vw] top-[40vh] md:top-[38vh] w-[44vw] md:w-[24vw] h-[24vh] md:h-[30vh] overflow-hidden rounded-[20px] md:rounded-[24px]  bg-zinc-900 shadow-[0_0_30px_rgba(220,38,38,0.2)] flex items-center justify-center cursor-pointer group"
+          className="absolute z-20 left-[28vw] md:left-[38vw] top-[40vh] md:top-[38vh] w-[44vw] md:w-[24vw] h-[24vh] md:h-[30vh] overflow-hidden rounded-[20px] md:rounded-[24px] bg-zinc-900 shadow-[0_0_30px_rgba(220,38,38,0.2)] flex items-center justify-center cursor-pointer group"
         >
-          <img
-            src={CENTER_FEATURED.img}
-            alt={CENTER_FEATURED.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          {/* Autoplay & Loop Video Element */}
+          <video
+            src={CENTER_FEATURED.video}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="h-full w-full object-cover object-[70%_60%] transition-transform duration-500 group-hover:scale-105"
           />
 
           <div className="center-overlay-content absolute inset-0 bg-zinc-950/60 backdrop-blur-[2px] flex flex-col items-center justify-between p-4 md:p-6 transition-opacity">
@@ -264,9 +268,9 @@ export default function GridZoomHero() {
               {CENTER_FEATURED.title}
             </span>
 
-            {/* Scroll Indicator Button at the center/bottom */}
-            <div className="flex items-center gap-2 rounded-full  px-4 md:px-5 py-2 text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-white shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:bg-red-500">
-              <span className="flex gap-2">SCROLL  <span className="hidden lg:block">TO EXPLORE </span></span>
+            {/* Scroll Indicator Button */}
+            <div className="flex items-center gap-2 rounded-full px-4 md:px-5 py-2 text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-white shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:bg-red-500">
+              <span className="flex gap-2">SCROLL <span className="hidden lg:block">TO EXPLORE </span></span>
               <span className="text-xs transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                 ↓
               </span>
@@ -274,7 +278,7 @@ export default function GridZoomHero() {
           </div>
         </div>
 
-         {/* TRANSITION PORTAL OVERLAY */}
+        {/* TRANSITION PORTAL OVERLAY */}
         <div
           ref={portalExpandRef}
           className="absolute inset-0 z-30 flex h-full w-full flex-col items-center justify-center bg-[#0b0b0c] border border-white/20 pointer-events-none px-6 text-center"
