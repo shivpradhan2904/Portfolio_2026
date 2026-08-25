@@ -24,7 +24,7 @@ const GRID_ITEMS = [
   {
     id: 3,
     title: "COMMUNITY",
-    img: "/img/img.jpg",
+    img: "/img/temp-image.jpg",
     style: "right-[2vw] md:right-[3vw] top-[28vh] md:top-[34vh] w-[42vw] md:w-[24vw] h-[25vh] md:h-[30vh]",
     flyTo: { x: "100vw", y: "0vh" },
   },
