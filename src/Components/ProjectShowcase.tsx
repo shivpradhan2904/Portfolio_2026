@@ -91,60 +91,10 @@ useEffect(() => {
     <div
       ref={containerRef}
       className="relative w-full bg-[#0b0b0c] text-zinc-100 selection:bg-red-600 selection:text-white font-sans overflow-x-hidden"
-    >
-      {/* Top Progress Bar */}
-      {/* <motion.div
-        style={{ width: progressBar }}
-        className="fixed top-0 left-0 h-1 bg-red-600 z-50 shadow-[0_0_10px_#dc2626]"
-      /> */}
-
+    > 
       {/* Background Mesh */}
       <div className="fixed inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#1f1f23_1px,transparent_1px)] [background-size:24px_24px]" />
-
-      {/* SECTION 1: HERO */}
-      <section className="relative h-screen w-full flex flex-col justify-between p-6 sm:p-12 border-b border-zinc-800/60">
-        <div className="hidden sm:flex items-center  justify-between font-mono text-xs text-zinc-400">
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-red-600 animate-ping" />
-            <span className="text-zinc-200 tracking-wider">PORTFOLIO // 2026</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="hidden sm:inline text-zinc-500">ORIGIN: {PERSONAL_DATA.origin}</span>
-            <span className="flex items-center gap-1 text-red-500 border border-red-900/40 bg-red-950/20 px-2.5 py-1 rounded">
-              <MapPin size={12} /> {PERSONAL_DATA.location}
-            </span>
-          </div>
-        </div>
-
-        <div className="my-auto space-y-6 max-w-5xl">
-          <div className="inline-flex items-center gap-2 font-mono text-xs text-red-500 tracking-widest uppercase">
-            <Sparkles size={14} />
-            <span>{PERSONAL_DATA.subtitle}</span>
-          </div>
-
-          <h1
-            ref={textRef}
-            className="text-5xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase text-zinc-100 leading-none"
-          >
-            {PERSONAL_DATA.name.split(" ")[0]} <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-zinc-400 hero-text-glow">
-              {PERSONAL_DATA.name.split(" ")[1]}
-            </span>
-          </h1>
-
-          <p className="text-base sm:text-xl text-zinc-400 max-w-2xl font-light leading-relaxed">
-            {PERSONAL_DATA.bio}
-          </p>
-        </div>
-
-        <div className="flex items-center justify-between font-mono text-xs text-zinc-500 pt-4 border-t border-zinc-900">
-          <span className="flex items-center gap-2">
-            <Terminal size={14} className="text-red-600" /> SCROLL DOWN TO EXPLORE
-          </span>
-          <ArrowRight size={16} className="text-red-500 animate-pulse" />
-        </div>
-      </section>
-
+ 
       {/* SECTION 2: HORIZONTAL TRACK PANELS */}
       <section ref={horizontalRef} className="relative h-screen w-full overflow-hidden bg-[#0b0b0c]">
         <div className="flex h-full w-[300vw]">
@@ -185,29 +135,7 @@ useEffect(() => {
           })}
         </div>
       </section>
-
-      {/* SECTION 3: OUTRO */}
-      <section className="relative min-h-[60vh] w-full p-8 sm:p-16 flex flex-col justify-between bg-[#08080a] border-t border-zinc-800/80">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 my-auto">
-          <div className="space-y-2 border-l-2 border-red-600 pl-4">
-            <span className="font-mono text-xs text-zinc-500 uppercase">Hometown</span>
-            <p className="text-xl font-bold text-white uppercase">{PERSONAL_DATA.origin}</p>
-          </div>
-          <div className="space-y-2 border-l-2 border-red-600 pl-4">
-            <span className="font-mono text-xs text-zinc-500 uppercase">Current Base</span>
-            <p className="text-xl font-bold text-white uppercase">{PERSONAL_DATA.location}</p>
-          </div>
-          <div className="space-y-2 border-l-2 border-red-600 pl-4">
-            <span className="font-mono text-xs text-zinc-500 uppercase">Focus Game</span>
-            <p className="text-xl font-bold text-white uppercase">Chess ♟️</p>
-          </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-12 border-t border-zinc-900 font-mono text-xs text-zinc-500">
-          <span>SIBA PRADHAN — DIGITAL PROFILE</span>
-          <span className="text-red-500">AVAILABLE FOR COLLABORATION</span>
-        </div>
-      </section>
+ 
     </div>
   );
 }

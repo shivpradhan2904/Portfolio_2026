@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import ProjectDiveScroll from "../Components/Project/Projectdivescroll";
-import LoadingScreen from "../Components/Hero/Loadingscreen";
 import Hero from "../Components/Hero/Hero";
 import HeroStatement from "../Components/Hero/Herostatement";
 import CombinedNavbar from "../Components/Navbar";
@@ -14,6 +13,8 @@ import PerspectiveMarqueeHero from "../Components/PerspectiveMarqueeHero";
 import FooterSection from "../Components/FooterSection";
 import { CustomCursor } from "../Components/CustomCursor";
 import SmoothScroll from "../Helpers/SmoothScroll";
+import FullScreenStripFillInteractive from "../Components/PinnedSection";
+import SiteIntroLoader from "../Components/Hero/SiteIntroLoader";
 
 export default function Page() {
   const [loading, setLoading] = useState(true);
@@ -27,12 +28,12 @@ export default function Page() {
 
   return (
     <main className="min-h-screen bg-black">
-      <SmoothScroll/>
+      <SmoothScroll />
       <CustomCursor />
 
       <AnimatePresence mode="wait">
         {loading ? (
-          <LoadingScreen key="loader" onDone={() => setLoading(false)} />
+          <SiteIntroLoader key="loader" onDone={() => setLoading(false)} />
         ) : (
           <div key="page-content">
             <CombinedNavbar />
@@ -46,6 +47,8 @@ export default function Page() {
             <div id="about">
               <ProjectShowcase />
             </div>
+
+            <FullScreenStripFillInteractive />
 
             <div id="projects">
               <ProjectDiveScroll />
