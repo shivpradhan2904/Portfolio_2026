@@ -145,7 +145,7 @@ export default function FooterSection() {
               className="mt-8 flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-start gap-2.5 sm:gap-3 w-full"
             >
               {[
-                { name: "GitHub", icon: FaGithub, href: "https://github.com" },
+                { name: "GitHub", icon: FaGithub, href: "https://github.com/shivpradhan2904" },
                 { name: "LinkedIn", icon: FaLinkedin, href: "https://linkedin.com" },
                 { name: "Instagram", icon: FaInstagram, href: "https://instagram.com" },
                 { name: "Email", icon: Mail, href: "mailto:sibapradhan2904@gmail.com" },
