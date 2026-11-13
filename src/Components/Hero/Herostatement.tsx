@@ -1,7 +1,15 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, type Variants } from "framer-motion";
+import { useEffect, useRef } from "react";
+import {
+  motion,
+  useMotionValue,
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+  type Variants,
+} from "framer-motion";
 import { Allura } from "next/font/google";
 
 const allura = Allura({
@@ -57,8 +65,88 @@ const wordVariant: Variants = {
   },
 };
 
+// How far (px) the cursor can be from a character and still attract it
+const ATTRACT_RADIUS = 200;
+// How strongly characters are pulled (0 - 1, share of the distance to the cursor)
+const ATTRACT_STRENGTH = 0.55;
+
+type MagnetCharProps = {
+  char: string;
+  mouseX: MotionValue<number>;
+  mouseY: MotionValue<number>;
+};
+
+// A single character that is attracted toward the cursor
+function MagnetChar({ char, mouseX, mouseY }: MagnetCharProps) {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springConfig = { stiffness: 170, damping: 14, mass: 0.12 };
+  const sx = useSpring(x, springConfig);
+  const sy = useSpring(y, springConfig);
+
+  useEffect(() => {
+    const update = () => {
+      const el = ref.current;
+      if (!el) return;
+
+      const mx = mouseX.get();
+      const my = mouseY.get();
+
+      // Cursor is outside the section -> release the character
+      if (mx < -5000) {
+        x.set(0);
+        y.set(0);
+        return;
+      }
+
+      const rect = el.getBoundingClientRect();
+
+      // Remove this character's own offset so we measure from its resting position
+      const cx = rect.left + rect.width / 2 - sx.get();
+      const cy = rect.top + rect.height / 2 - sy.get();
+
+      const dx = mx - cx;
+      const dy = my - cy;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist < ATTRACT_RADIUS) {
+        const factor = (1 - dist / ATTRACT_RADIUS) * ATTRACT_STRENGTH;
+        x.set(dx * factor);
+        y.set(dy * factor);
+      } else {
+        x.set(0);
+        y.set(0);
+      }
+    };
+
+    const unsubX = mouseX.on("change", update);
+    const unsubY = mouseY.on("change", update);
+    return () => {
+      unsubX();
+      unsubY();
+    };
+  }, [mouseX, mouseY, x, y, sx, sy]);
+
+  return (
+    <motion.span
+      ref={ref}
+      style={{ x: sx, y: sy }}
+      className="inline-block will-change-transform"
+    >
+      {char}
+    </motion.span>
+  );
+}
+
 export default function HeroStatement() {
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  // Cursor position (viewport coordinates) shared with every character
+  const mouseX = useMotionValue(-9999);
+  const mouseY = useMotionValue(-9999);
 
   // Track scroll progress within this component section
   const { scrollYProgress } = useScroll({
@@ -78,11 +166,28 @@ export default function HeroStatement() {
   const gridY = useTransform(scrollYProgress, [0, 0.6], [0, -20]);
   const gridOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0.3]);
 
+  const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    mouseX.set(e.clientX);
+    mouseY.set(e.clientY);
+  };
+
+  const handlePointerLeave = () => {
+    mouseX.set(-9999);
+    mouseY.set(-9999);
+  };
+
   const renderAnimatedText = (text: string, opacityClass = "text-white") => {
     return text.split(" ").map((word, i) => (
-      <span key={i} className="inline-block overflow-hidden align-top mr-[0.28em]">
+      <span key={i} className="inline-block align-top mr-[0.28em]">
         <motion.span variants={wordVariant} className={`inline-block ${opacityClass}`}>
-          {word}
+          {word.split("").map((char, ci) => (
+            <MagnetChar
+              key={ci}
+              char={char}
+              mouseX={mouseX}
+              mouseY={mouseY}
+            />
+          ))}
         </motion.span>
       </span>
     ));
@@ -91,6 +196,8 @@ export default function HeroStatement() {
   return (
     <section
       ref={sectionRef}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
       className="relative w-full bg-[#0b0b0c] text-white overflow-hidden py-8 sm:py-12"
     >
       {/* Corner accents */}

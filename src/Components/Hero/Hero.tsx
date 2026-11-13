@@ -1,6 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { Zap, Bot, ArrowUpRight, Trophy } from "lucide-react";
 import ShineText from "./Shinetext";
 import { Black_Ops_One } from "next/font/google";
@@ -10,13 +16,65 @@ const blackOps = Black_Ops_One({
   weight: ["400"],
 });
 
+// Max tilt of the whole headline block (degrees)
+const MAX_TILT = 9;
+// Perspective distance (smaller = stronger 3D)
+const PERSPECTIVE = 1100;
+
 interface HeroProps {
   startAnimation: boolean;
 }
 
 export default function Hero({ startAnimation }: HeroProps) {
+  const reduceMotion = useReducedMotion();
+
+  // Cursor position normalized to -0.5 ... 0.5 from the center of the section
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+
+  // Smooth follow
+  const spring = { stiffness: 90, damping: 18, mass: 0.5 };
+  const sx = useSpring(mx, spring);
+  const sy = useSpring(my, spring);
+
+  // Whole block tilt (leans toward the cursor)
+  const rotateY = useTransform(sx, [-0.5, 0.5], [-MAX_TILT, MAX_TILT]);
+  const rotateX = useTransform(sy, [-0.5, 0.5], [MAX_TILT, -MAX_TILT]);
+
+  // Text rows: each row sits at a different depth
+  const row1X = useTransform(sx, [-0.5, 0.5], [10, -10]);
+  const row1Y = useTransform(sy, [-0.5, 0.5], [6, -6]);
+  const row2X = useTransform(sx, [-0.5, 0.5], [18, -18]);
+  const row2Y = useTransform(sy, [-0.5, 0.5], [10, -10]);
+  const row3X = useTransform(sx, [-0.5, 0.5], [26, -26]);
+  const row3Y = useTransform(sy, [-0.5, 0.5], [14, -14]);
+
+  // Icons float closest to the viewer, so they move the most (opposite way)
+  const zapX = useTransform(sx, [-0.5, 0.5], [-46, 46]);
+  const zapY = useTransform(sy, [-0.5, 0.5], [-30, 30]);
+  const botX = useTransform(sx, [-0.5, 0.5], [-58, 58]);
+  const botY = useTransform(sy, [-0.5, 0.5], [-34, 34]);
+
+  // Small side paragraphs sit slightly behind the text
+  const noteX = useTransform(sx, [-0.5, 0.5], [-8, 8]);
+  const noteY = useTransform(sy, [-0.5, 0.5], [-5, 5]);
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    if (reduceMotion || e.pointerType === "touch") return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    mx.set((e.clientX - rect.left) / rect.width - 0.5);
+    my.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handlePointerLeave = () => {
+    mx.set(0);
+    my.set(0);
+  };
+
   return (
     <section
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
       className={`${blackOps.className} relative flex min-h-screen w-full flex-col justify-between overflow-hidden bg-[#0b0b0c] text-white select-none pt-20 pb-6 px-4 md:px-12`}
     >
       {/* Background Glow */}
@@ -42,12 +100,23 @@ export default function Hero({ startAnimation }: HeroProps) {
         <Trophy size={18} strokeWidth={1.5} />
       </div>
 
-      {/* Main Content Area */}
-      <div className="relative z-10 mx-auto my-auto flex w-full max-w-[1550px] flex-col items-end justify-center space-y-1 md:space-y-2">
+      {/* Main Content Area (tilts toward the cursor) */}
+      <motion.div
+        style={{
+          transformPerspective: PERSPECTIVE,
+          rotateX: reduceMotion ? 0 : rotateX,
+          rotateY: reduceMotion ? 0 : rotateY,
+        }}
+        className="relative z-10 mx-auto my-auto flex w-full max-w-[1550px] flex-col items-end justify-center space-y-1 md:space-y-2 will-change-transform"
+      >
         
         {/* ROW 1 */}
-        <div className="flex w-full items-center justify-end space-x-3 sm:space-x-4 md:space-x-6">
+        <motion.div
+          style={{ x: row1X, y: row1Y }}
+          className="flex w-full items-center justify-end space-x-3 sm:space-x-4 md:space-x-6"
+        >
           <motion.p
+            style={{ x: noteX, y: noteY }}
             initial={{ opacity: 0, y: 10 }}
             animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.7, delay: 0.6 }}
@@ -67,10 +136,13 @@ export default function Hero({ startAnimation }: HeroProps) {
             </motion.span>
             <ShineText delay={0.2}>CODE</ShineText>
           </div>
-        </div>
+        </motion.div>
 
         {/* ROW 2 */}
-        <div className="flex w-full items-center justify-end text-[12vw] xl:text-[11.5rem] font-extrabold uppercase tracking-tight leading-[0.85] whitespace-nowrap overflow-hidden">
+        <motion.div
+          style={{ x: row2X, y: row2Y }}
+          className="flex w-full items-center justify-end text-[12vw] xl:text-[11.5rem] font-extrabold uppercase tracking-tight leading-[0.85] whitespace-nowrap overflow-hidden"
+        >
           <motion.span
             initial={{ y: "100%" }}
             animate={startAnimation ? { y: 0 } : { y: "100%" }}
@@ -81,6 +153,7 @@ export default function Hero({ startAnimation }: HeroProps) {
           </motion.span>
 
           <motion.div
+            style={{ x: zapX, y: zapY }}
             initial={{ opacity: 0, scale: 0.5 }}
             animate={startAnimation ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
             transition={{ duration: 0.5, delay: 0.5 }}
@@ -90,10 +163,13 @@ export default function Hero({ startAnimation }: HeroProps) {
           </motion.div>
 
           <ShineText delay={0.4}>WARE</ShineText>
-        </div>
+        </motion.div>
 
         {/* ROW 3 */}
-        <div className="flex w-full items-center justify-end space-x-3 sm:space-x-4 md:space-x-6">
+        <motion.div
+          style={{ x: row3X, y: row3Y }}
+          className="flex w-full items-center justify-end space-x-3 sm:space-x-4 md:space-x-6"
+        >
           <div className="flex items-center text-[12vw] xl:text-[11.5rem] font-extrabold uppercase tracking-tight leading-[0.85] whitespace-nowrap overflow-hidden">
             <motion.span
               initial={{ y: "100%" }}
@@ -105,6 +181,7 @@ export default function Hero({ startAnimation }: HeroProps) {
             </motion.span>
 
             <motion.div
+              style={{ x: botX, y: botY }}
               initial={{ opacity: 0, scale: 0.5 }}
               animate={startAnimation ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
               transition={{ duration: 0.5, delay: 0.7 }}
@@ -117,6 +194,7 @@ export default function Hero({ startAnimation }: HeroProps) {
           </div>
 
           <motion.p
+            style={{ x: noteX, y: noteY }}
             initial={{ opacity: 0, y: 10 }}
             animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.6, delay: 1 }}
@@ -124,9 +202,9 @@ export default function Hero({ startAnimation }: HeroProps) {
           >
             CODE IS A LANGUAGE OF COLLABORATION. TECHNOLOGY IS A CREATOR FOR TOMORROW. WE CRAFT FLUID INTERFACES WITH PURPOSE AND PRECISION. WE ENGINEER IT.
           </motion.p>
-        </div>
+        </motion.div>
 
-      </div>
+      </motion.div>
 
       {/* Footer Line */}
       <motion.div
